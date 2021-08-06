@@ -1,0 +1,26 @@
+{
+  "name": "playerayer",
+  "version": "1.0.0",
+  "description": "TEAM PROFILE GENERATOR# PlayerAyerAye",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanspena/PlayerAyerAye.git"
+  },
+  "author": "ryanspena",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanspena/PlayerAyerAye/issues"
+  },
+  "homepage": "https://github.com/ryanspena/PlayerAyerAye#readme",
+  "dependencies": {
+    "inquirer": "^8.1.2",
+    "jest": "^27.0.6"
+  }
+}
