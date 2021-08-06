@@ -1,11 +1,57 @@
 const fs = require('fs')
 const path = require('path')
-const pageGenerator = require('./src/pageGenerator')
 const inquirer = require('inquirer')
-const Choices = require('inquirer/lib/objects/choices')
+const render = require('./src/page-template')
 
-const questionMGR = () => {
- return inquirer.prompt([
+const output_dir = path.resolve(__dirname, 'output')
+const output_file = path.join(output_dir, 'team.html')
+const team = [];
+
+function menu() {
+ inquirer.prompt(
+     [
+         {
+             type: 'confirm',
+             name: 'confirmTeam',
+             message: 'Would you like to add a member to your business?',
+         },
+         {
+             type: 'list',
+             name: 'addTeam',
+             message: 'Select any role',
+             choices: ['Team Manager', 'Engineer', 'Intern'],
+             when: ({ confirmTeam }) => {
+                 if (confirmTeam) {
+                     return true
+                 } else {
+                     return false;
+                 }
+             }
+         }
+     ]
+ )
+     .then(menuAnswers => {
+         switch (menuAnswers.addTeam) {
+             case 'Engineer':
+                 questionsENG();
+                 break;
+             case "Intern":
+                 questionsINT();
+                 break;
+             case "Team Manager":
+                 questionsMGR();
+                 break;
+             default:
+                 createTeam()
+
+         }
+    
+     })
+}
+
+
+function questionMGR() {
+ inquirer.prompt([
   {
    type: 'input',
    name: 'managerName',
@@ -37,10 +83,9 @@ const questionMGR = () => {
  ])
 }
 
-const questionENG = () => {
- return inquirer.prompt(
-  [
-   {
+function questionENG () {
+ inquirer.prompt([
+  {
     type: 'input',
     name: 'engineerName',
     message: 'What is the engineers name?',
@@ -66,8 +111,8 @@ const questionENG = () => {
   return menu()
  })
 }
-const questionINT = () => {
- return inquirer.prompt(
+function questionINT() {
+ inquirer.prompt(
   [
    {
     type: 'input',
@@ -99,9 +144,4 @@ const questionINT = () => {
 function writeToFile(fileName, data) {
  return fs.writeFileSync(path.join(process.cwd(), fileName), data)
 }
-function startup() {
- questionsMGR()
-  .then(menu)
- .then(responses => { console.log(responses) })
-}
-startup()
+menu()
